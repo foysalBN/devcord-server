@@ -3,6 +3,7 @@ const http = require('http')
 const cors = require('cors')
 const { MongoClient } = require('mongodb');
 const socketio = require('socket.io')
+require('dotenv').config()
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -15,7 +16,7 @@ const io = socketio(server, {
 app.use(cors())
 app.use(express.json())
 
-const uri = "mongodb+srv://devcord:CklwgDnC1tJ2i5CB@cluster0.q3v5j.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.q3v5j.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
