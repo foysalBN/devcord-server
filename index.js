@@ -13,6 +13,7 @@ const io = socketio(server, {
 
 // Middlewire
 app.use(cors())
+app.use(express.json())
 
 const uri = "mongodb+srv://devcord:CklwgDnC1tJ2i5CB@cluster0.q3v5j.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -64,6 +65,15 @@ async function run() {
             res.json(rooms)
         })
 
+        // post - add new room
+        app.post('/rooms', async (req, res) => {
+            const body = req.body
+            const result = await roomsCollection.insertOne(body)
+
+            res.json(result)
+        })
+
+        // get - specific room conversation
         app.get('/conversation', async (req, res) => {
             const { roomid } = req.query
             const messageCollection = conversationsDB.collection(roomid)
